@@ -1,0 +1,14 @@
+{
+  "name": "frontend-project-12",
+  "version": "1.0.0",
+  "description": "Training project chatSlack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  }
+}

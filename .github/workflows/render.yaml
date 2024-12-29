@@ -1,0 +1,14 @@
+# Exported from Render on 2024-12-29T21:10:25Z
+services:
+- type: web
+  name: frontend-project-12
+  runtime: node
+  repo: https://github.com/VgomerV/frontend-project-12
+  plan: free
+  envVars:
+  - key: RENDER_PROJECT_12
+    sync: false
+  region: oregon
+  buildCommand: npm
+  startCommand: npm start
+version: "1"

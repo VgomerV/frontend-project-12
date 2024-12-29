@@ -10,5 +10,5 @@ services:
     sync: false
   region: oregon
   buildCommand: npm ci
-  startCommand: npm star
+  startCommand: npm start
 version: "1"

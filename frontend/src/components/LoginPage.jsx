@@ -16,24 +16,36 @@ export const Login = () => (
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                             <img src={avatar} className="rounded-circle" alt="Войти"/>
                         </div>
-                        <Formik>
+                        <Formik
+                            initialValues={{ username: "", password: "" }}
+                            onSubmit={({ setSubmitting }) => {
+                                console.log("Form is validated! Submitting the form...");
+                                setSubmitting(false);
+                            }}
+                        >
                             <Form className="col-12 col-md-6 mt-3 mt-md-0">
                             <h1 className="text-center mb-4">Войти</h1>
                             <div className="form-floating mb-3">
-                                <label htmlFor="username">Ваш ник</label>
                                 <Field
                                 type="username"
                                 name="username"
+                                id="username"
                                 className="form-control"
+                                autocomplete="username"
+                                required
+                                placeholder="Ваш ник"
                                 />
+                                <label htmlFor="username">Ваш ник</label>
                             </div>
                             <div className="form-floating mb-4">
-                                <label htmlFor="password" className="form-label">Пароль</label>
                                 <Field
                                 type="password"
                                 name="password"
+                                id="password"
                                 className="form-control"
+                                placeholder="Пароль"
                                 />
+                                <label htmlFor="password" className="form-label">Пароль</label>
                             </div>
                             <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
                             </Form>

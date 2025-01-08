@@ -1,13 +1,9 @@
 import ReactDOM from 'react-dom/client';
-import init from './init.jsx';
-
-console.log("WORK-1");
+import App from './App.jsx';
 
 const app = async () => {
   const root = ReactDOM.createRoot(document.getElementById('chat'));
-  root.render(await init());
+  root.render(await App());
 };
 
 app();
-
-console.log("WORK-2");

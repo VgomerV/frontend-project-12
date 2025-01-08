@@ -1,5 +1,15 @@
+import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
 import avatar from "../assets/avatar.jpg";
+
+const createUrl = (url) => {
+    const proxy = 'http://localhost:5001/post';
+    const fullUrl = new URL(proxy);
+    fullUrl.searchParams.set('disableCache', 'true');
+    fullUrl.searchParams.set('url', url);
+  
+    return fullUrl;
+  };
 
 export const Login = () => (
     <div className="d-flex flex-column h-100">
@@ -18,8 +28,11 @@ export const Login = () => (
                         </div>
                         <Formik
                             initialValues={{ username: "", password: "" }}
-                            onSubmit={({ setSubmitting }) => {
+                            onSubmit={({ setSubmitting }, initialValues) => {
                                 console.log("Form is validated! Submitting the form...");
+                                axios.post(createUrl('/api/v1/login'), initialValues).then((response) => {
+                                    console.log(response.data); // =>[{ id: '1', name: 'general', removable: false }, ...]
+                                  });
                                 setSubmitting(false);
                             }}
                         >

@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "start": "npx start-server -s ./dist"
+    "start": "npx start-server -s ./frontend/dist"
   },
   "dependencies": {
     "i18next": "^24.2.0",

@@ -9,6 +9,6 @@ services:
   - key: RENDER_PROJECT_12
     sync: false
   region: oregon
-  buildCommand: npm ci
+  buildCommand: npm build
   startCommand: npm start
 version: "1"

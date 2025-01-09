@@ -5,7 +5,6 @@ import avatar from "../assets/avatar.jpg";
 const createUrl = (url) => {
     const proxy = 'http://localhost:5001/post';
     const fullUrl = new URL(proxy);
-    fullUrl.searchParams.set('disableCache', 'true');
     fullUrl.searchParams.set('url', url);
   
     return fullUrl;

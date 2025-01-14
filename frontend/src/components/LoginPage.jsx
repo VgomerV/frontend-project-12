@@ -1,14 +1,62 @@
 import axios from 'axios';
-import { Formik, Form, Field } from 'formik';
+import { useFormik } from 'formik';
 import avatar from "../assets/avatar.jpg";
+import { useNavigate } from 'react-router-dom';
 
-const createUrl = (url) => {
-    const proxy = 'http://localhost:5001/post';
-    const fullUrl = new URL(proxy);
-    fullUrl.searchParams.set('url', url);
-  
-    return fullUrl;
-  };
+const SignupForm = () => {
+    const navigate = useNavigate();
+    const formik = useFormik({
+      initialValues: {
+        username: "",
+        password: "",
+      },
+      onSubmit: ({username, password}) => {
+        console.log(localStorage);
+        axios.post('api/v1/login', { username, password }).then((response) => {
+            const { token } = response.data;
+            // localStorage.removeItem('token');
+            localStorage.setItem('token', token);
+            if (localStorage.length > 0) {
+              console.log('WORK');
+              navigate('/');
+            }
+            console.log(localStorage.getItem('token'));
+        });
+      },
+    });
+    return (
+      <form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-md-0">
+        <h1 className="text-center mb-4">Войти</h1>
+        <div className="form-floating mb-3">
+            <input
+            type="username"
+            name="username"
+            id="username"
+            className="form-control"
+            autocomplete="username"
+            required
+            placeholder="Ваш ник"
+            onChange={formik.handleChange}
+            value={formik.values.username}
+            />
+            <label htmlFor="username">Ваш ник</label>
+        </div>
+        <div className="form-floating mb-4">
+            <input
+                type="password"
+                name="password"
+                id="password"
+                className="form-control"
+                placeholder="Пароль"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+            />
+            <label htmlFor="password" className="form-label">Пароль</label>
+        </div>
+        <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+      </form>
+    );
+};
 
 export const Login = () => (
     <div className="d-flex flex-column h-100">
@@ -25,43 +73,7 @@ export const Login = () => (
                         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                             <img src={avatar} className="rounded-circle" alt="Войти"/>
                         </div>
-                        <Formik
-                            initialValues={{ username: "", password: "" }}
-                            onSubmit={({ setSubmitting }, initialValues) => {
-                                console.log("Form is validated! Submitting the form...");
-                                axios.post(createUrl('/api/v1/login'), initialValues).then((response) => {
-                                    console.log(response.data); // =>[{ id: '1', name: 'general', removable: false }, ...]
-                                  });
-                                setSubmitting(false);
-                            }}
-                        >
-                            <Form className="col-12 col-md-6 mt-3 mt-md-0">
-                            <h1 className="text-center mb-4">Войти</h1>
-                            <div className="form-floating mb-3">
-                                <Field
-                                type="username"
-                                name="username"
-                                id="username"
-                                className="form-control"
-                                autocomplete="username"
-                                required
-                                placeholder="Ваш ник"
-                                />
-                                <label htmlFor="username">Ваш ник</label>
-                            </div>
-                            <div className="form-floating mb-4">
-                                <Field
-                                type="password"
-                                name="password"
-                                id="password"
-                                className="form-control"
-                                placeholder="Пароль"
-                                />
-                                <label htmlFor="password" className="form-label">Пароль</label>
-                            </div>
-                            <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
-                            </Form>
-                        </Formik>
+                        <SignupForm />
                     </div>
                     <div className="card-footer p-4">
                         <div className="text-center">

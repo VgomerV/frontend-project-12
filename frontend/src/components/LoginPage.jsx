@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import avatar from "../assets/avatar.jpg";
 import { useNavigate } from 'react-router-dom';
 
-const LogError = (isLogin) => isLogin ? <div className="invalid-tooltip">Неверные имя пользователя или пароль</div> : null;
+const LoginError = (isLogin) => isLogin ? <div className="invalid-tooltip">Неверные имя пользователя или пароль</div> : null;
 
 const SignupForm = () => {
   const [ logIn, setValid ] = useState(false);
@@ -57,7 +57,7 @@ const SignupForm = () => {
             value={formik.values.password}
           />
           <label htmlFor="password" className="form-label">Пароль</label>
-          {LogError(logIn)}
+          {LoginError(logIn)}
       </div>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
     </form>

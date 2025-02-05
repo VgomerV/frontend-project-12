@@ -4,11 +4,12 @@ import { useFormik } from 'formik';
 import avatar from "../assets/avatar.jpg";
 import { useNavigate } from 'react-router-dom';
 
-const LoginError = (isLogin) => isLogin ? <div className="invalid-tooltip">Неверные имя пользователя или пароль</div> : null;
+const LoginError = (isAuthorized) => isAuthorized ? <div className="invalid-tooltip">Неверные имя пользователя или пароль</div> : null;
 
 const SignupForm = () => {
-  const [ logIn, setValid ] = useState(false);
+  const [ errorAuthorized, setErrorAuthorized ] = useState(false);
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -17,14 +18,17 @@ const SignupForm = () => {
     onSubmit: ({username, password}) => {
       axios.post('api/v1/login', { username, password })
         .then((response) => {
-          const { token } = response.data;
+          const { token, username } = response.data;
+
           localStorage.setItem('token', token);
+          localStorage.setItem('uername', username);
+
           if (localStorage.token) {
             navigate('/');
           }
         })
         .catch(() => {
-          setValid(true);
+          setErrorAuthorized(true);
         });
       },
     });
@@ -37,12 +41,12 @@ const SignupForm = () => {
           type="username"
           name="username"
           id="username"
-          className={`form-control ${logIn ? 'is-invalid' : ''}`}
+          className={`form-control ${errorAuthorized ? 'is-invalid' : ''}`}
           autocomplete="username"
           required
           placeholder="Ваш ник"
           onChange={formik.handleChange}
-        value={formik.values.username}
+          value={formik.values.username}
         />
         <label htmlFor="username">Ваш ник</label>
       </div>
@@ -51,20 +55,22 @@ const SignupForm = () => {
             type="password"
             name="password"
             id="password"
-            className={`form-control ${logIn ? 'is-invalid' : ''}`}
+            className={`form-control ${errorAuthorized ? 'is-invalid' : ''}`}
+            required
+            autocomplete="current-password"
             placeholder="Пароль"
             onChange={formik.handleChange}
             value={formik.values.password}
           />
           <label htmlFor="password" className="form-label">Пароль</label>
-          {LoginError(logIn)}
+          {LoginError(errorAuthorized)}
       </div>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
     </form>
   );
 };
 
-export const Login = () => (
+const LoginPage = () => (
     <div className="d-flex flex-column h-100">
       <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
@@ -93,3 +99,5 @@ export const Login = () => (
       </div>
     </div>
   );
+
+  export default LoginPage;

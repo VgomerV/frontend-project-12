@@ -15,6 +15,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "classnames": "^2.5.1",
     "concurrently": "^9.1.0",
     "eslint-plugin-functional": "^6.6.3",
     "eslint-plugin-react-hooks": "^5.1.0",

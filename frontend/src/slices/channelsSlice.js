@@ -9,14 +9,14 @@ export const fetchChannels = createAsyncThunk(
   },
 );
 
-const channelsAdapter = createEntityAdapter({});
+const channelsAdapter = createEntityAdapter();
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: channelsAdapter.getInitialState(),
+  initialState: channelsAdapter.getInitialState({ currentChannelID: 1 }),
   reducers: {
-    testReducerChannels: () => {
-      console.log('>>>>> test reducer channels work!');
+    setCurrentChannel: (state, action) => {
+      state.currentChannelID = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -27,6 +27,6 @@ const channelsSlice = createSlice({
   },
 });
 
-export const { testReducerChannels } = channelsSlice.actions;
+export const { setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

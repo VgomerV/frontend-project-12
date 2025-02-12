@@ -1,16 +1,18 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import HomePage from './components/HomePage';
-import LoginPage from './components/LoginPage';
-import NotFoundPage from './components/NotFoundPage';
+import Navbar from './components/Navbar.jsx';
+import MainPage from './components/MainPage.jsx';
+import LoginPage from './components/LoginPage.jsx';
+import NotFoundPage from './components/NotFoundPage.jsx';
 import store from './slices/index.js';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Router>
+      <Navbar />
+      <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
-          <Route path = '/' element={<HomePage />} />
+          <Route path = '/' element={<MainPage />} />
           <Route path = '/login' element={<LoginPage />} />
           <Route path = '*' element={<NotFoundPage />} />
         </Routes>
@@ -22,26 +24,16 @@ const App = () => {
 export default App;
 
 
-
-// import { Provider } from 'react-redux';
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import { NotFound } from './components/NotFoundPage';
-// import { Login } from './components/LoginPage';
-// import Home from './components/HomePage';
-// import store from './slices/index.js';
-
 // const App = () => {
-//     return (
-//         <Provider store={store}>
-//             <BrowserRouter>
-//                 <Routes>
-//                     <Route path="/" element={<Home />} />
-//                     <Route path="/login" element={<Login />} />
-//                     <Route path="*" element={<NotFound />} />
-//                 </Routes>
-//             </BrowserRouter>
-//         </Provider>
-//     );
+//   return (
+//     <Provider store={store}>
+//       <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+//         <Routes>
+//           <Route path = '/' element={<MainPage />} />
+//           <Route path = '/login' element={<LoginPage />} />
+//           <Route path = '*' element={<NotFoundPage />} />
+//         </Routes>
+//       </Router>
+//     </Provider>
+//   );
 // };
-
-// export default App;

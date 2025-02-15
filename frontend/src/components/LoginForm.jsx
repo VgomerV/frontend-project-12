@@ -3,31 +3,25 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import cn from 'classnames';
-import getRoute from '../utilites/routes.js';
+import { useLoginMutation } from '../api/authApi.js'
 
 const LoginForm = () => {
   const [errorAuthorized, setErrorAuthorized] = useState();
   const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: ({username, password}) => {
-      axios.post(getRoute('login'), { username, password })
-        .then((response) => {
-          const { token, username } = response.data;
-          const user = {
-            token,
-            username,
-          }
-          localStorage.setItem('user', JSON.stringify(user));
-          navigate('/');
-        })
-        .catch(() => {
-          setErrorAuthorized('Неверные имя пользователя или пароль');
-        });
+    onSubmit: async ({ username, password }) => {
+      const { data, error } = await login({ username, password });
+      localStorage.setItem('user', JSON.stringify(data));
+      error 
+        ? setErrorAuthorized('Неверные имя пользователя или пароль')
+        : navigate('/');
       },
     });
 

@@ -1,34 +1,34 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import MessagesList from './MessagesList';
+import { uniqueId } from 'lodash';
 
 const Chat = () => {
-  const { channels, messages } = useSelector((state) => state);
-  const { currentChannelID } = channels;
-
-  let currentChannel = '';
-  if (channels.entities[currentChannelID]) {
-    const { name } = channels.entities[currentChannelID];
-    currentChannel = name;
-  }
-
-  const { ids, entities } = messages;
-  const messagesList = ids.map(id => entities[id]).filter((message) => message.channelId === currentChannelID);
-  const countMessages = messagesList.length;
+  const { auth, channels, messages } = useSelector((state) => state);
+  const { token, username } = auth;
+  const { currentChannelID, currentChannelName } = channels;
+  const { messagesList } = messages;
+  const currentMessages = messagesList.filter((message) => message.channelId === currentChannelID);
+  const countMessages = currentMessages.length;
+  // const { ids, entities } = messages;
+  // const messagesList = ids.map(id => entities[id]).filter((message) => message.channelId === currentChannelID);
+  // const countMessages = messagesList.length;
 
   const formik = useFormik({
     initialValues: {
       message: "",
     },
     onSubmit: (values, { resetForm }) => {
-        const newMessage = { body: values.message, channelId: currentChannelID, username: 'admin' };
+        const newMessage = { body: values.message, channelId: currentChannelID, username: username };
         axios.post('/api/v1/messages', newMessage, {
             headers: {
-                Authorization: `Bearer ${localStorage.token}`,
+                Authorization: `Bearer ${token}`,
             },
         }).then(({ data }) => {
           console.log('WORK CONSOL');
+        })
+        .catch(error => {
+          console.log(error);
         });
         resetForm();
     },
@@ -38,11 +38,13 @@ const Chat = () => {
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
-          <p className="m-0"><b># {currentChannel}</b></p>
+          <p className="m-0"><b># {currentChannelName}</b></p>
           <span className="text-muted">{countMessages} сообщений</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          <MessagesList messagesList={messagesList} />
+          <div className="messages-area">
+            {currentMessages.map(({ username, body }) => <div key={uniqueId()} className="text-break mb-2"><b>{username}</b>: {body}</div>)}
+          </div>
         </div>
         <div className="mt-auto px-5 py-3">
           <form novalidate="" className="py-1 border rounded-2" onSubmit={formik.handleSubmit}>

@@ -1,32 +1,31 @@
-import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
+// import axios from 'axios';
 
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async () => {
-    const response = await axios.get('api/v1/messages', { headers: { Authorization: `Bearer ${localStorage.token}` } });
-    return response.data;
-  },
-);
+// export const fetchMessages = createAsyncThunk(
+//   'messages/fetchMessages',
+//   async () => {
+//     const response = await axios.get('api/v1/messages', { headers: { Authorization: `Bearer ${localStorage.token}` } });
+//     return response.data;
+//   },
+// );
 
-const messagesAdapter = createEntityAdapter({});
+// const messagesAdapter = createEntityAdapter({});
+
+const initialState = {
+  messagesList: [],
+};
 
 const messagesSlice = createSlice({
   name: 'channels',
-  initialState: messagesAdapter.getInitialState(),
+  // initialState: messagesAdapter.getInitialState(),
+  initialState,
   reducers: {
-    testReducerMessages: () => {
-      console.log('>>>>> test reducer messages work!');
+    addMessages: (state, { payload }) => {
+      Object.assign(state, { messagesList: payload });
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchMessages.fulfilled, (state, action) => {
-        messagesAdapter.addMany(state, action);
-      });
   },
 });
 
-export const { testReducerMessages } = messagesSlice.actions;
+export const { addMessages } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

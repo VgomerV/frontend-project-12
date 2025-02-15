@@ -1,32 +1,42 @@
-import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 
-export const fetchChannels = createAsyncThunk(
-  'channels/fetchChanels',
-  async () => {
-    const response = await axios.get('api/v1/channels', { headers: { Authorization: `Bearer ${localStorage.token}` } });
-    return response.data;
-  },
-);
+// export const fetchChannels = createAsyncThunk(
+//   'channels/fetchChanels',
+//   async () => {
+//     const response = await axios.get('api/v1/channels', { headers: { Authorization: `Bearer ${localStorage.token}` } });
+//     return response.data;
+//   },
+// );
 
-const channelsAdapter = createEntityAdapter();
+const initialState = {
+  channelsList: [],
+  currentChannelID: '1',
+  currentChannelName: null,
+};
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: channelsAdapter.getInitialState({ currentChannelID: 1 }),
+  initialState,
   reducers: {
-    setCurrentChannel: (state, action) => {
-      state.currentChannelID = action.payload;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchChannels.fulfilled, (state, action) => {
-        channelsAdapter.addMany(state, action);
+    addChannels: (state, { payload }) => {
+      const { channels } = payload;
+      const [currentChannel] = channels
+        .filter((channel) => channel.id === state.currentChannelID);
+      Object.assign(state, {
+        channelsList: channels,
+        currentChannelName: currentChannel.name,
       });
+    },
+    setCurrentChannel: (state, { payload }) => {
+      const { id, name } = payload;
+      Object.assign(state, {
+        currentChannelID: id,
+        currentChannelName: name,
+      });
+    },
   },
 });
 
-export const { setCurrentChannel } = channelsSlice.actions;
+export const { addChannels, setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

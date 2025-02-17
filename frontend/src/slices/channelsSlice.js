@@ -12,6 +12,7 @@ const initialState = {
   channelsList: [],
   currentChannelID: '1',
   currentChannelName: null,
+  typeModal: null,
 };
 
 const channelsSlice = createSlice({
@@ -33,6 +34,9 @@ const channelsSlice = createSlice({
         currentChannelID: id,
         currentChannelName: name,
       });
+    },
+    setTypeModal: (state, { payload }) => {
+      Object.assign(state, { typeModal: payload });
     },
   },
 });

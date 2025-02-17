@@ -36,7 +36,7 @@ const MainPage = () => {
       dispatch(messagesApi.util.invalidateTags(['Message']));
     });
     socket.on('newChannel', () => {
-      dispatch(messagesApi.util.invalidateTags(['Channels']));
+      dispatch(channelsApi.util.invalidateTags(['Channels']));
     });
   }, [isChannelsLoading, isMessagesLoading]);  
 

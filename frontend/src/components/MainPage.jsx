@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Navbar from './Navbar.jsx';
 import channelsApi, { useFetchChannelsQuery } from '../api/channelsApi.js';
 import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
 import Channels from './channels/Channels';
@@ -49,6 +50,7 @@ const MainPage = () => {
 
   return (
     <div className="d-flex flex-column h-100">
+      <Navbar />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className ="row h-100 bg-white flex-md-row'">
           <Channels />

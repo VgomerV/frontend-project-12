@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// export const fetchChannels = createAsyncThunk(
-//   'channels/fetchChanels',
-//   async () => {
-//     const response = await axios.get('api/v1/channels', { headers: { Authorization: `Bearer ${localStorage.token}` } });
-//     return response.data;
-//   },
-// );
-
 const initialState = {
   channelsList: [],
   currentChannelID: '1',

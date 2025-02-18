@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -22,8 +21,8 @@ const LoginForm = () => {
       error 
         ? setErrorAuthorized('Неверные имя пользователя или пароль')
         : navigate('/');
-      },
-    });
+    },
+  });
 
   const classInput = cn({ 
     'form-control': true,

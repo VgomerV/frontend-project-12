@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useRemoveChannelMutation } from '../../api/channelsApi.js';
-import { resetCurrentChannel } from '../../slices/channelsSlice.js';
 
 const RemoveModal = ({ modalState, handleClose }) => {
   const dispatch = useDispatch();
@@ -12,7 +11,6 @@ const RemoveModal = ({ modalState, handleClose }) => {
   const [removeChannel, { error: removeChannelError, isLoading: isRemovingChannel }] = useRemoveChannelMutation();
   const removeChannelHandler = (id) => {
     removeChannel(id);
-    dispatch(resetCurrentChannel());
     handleClose();
   };
 

@@ -7,7 +7,7 @@ import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
 import Channels from './channels/Channels';
 import Chat from './Chat';
 import { logIn } from '../slices/authSlice.js';
-import { addChannels } from '../slices/channelsSlice';
+import { addChannels, resetCurrentChannel } from '../slices/channelsSlice';
 import { addMessages } from '../slices/messagesSlice';
 
 const MainPage = () => {
@@ -38,6 +38,7 @@ const MainPage = () => {
       dispatch(channelsApi.util.invalidateTags(['Channels']));
     });
     socket.on('removeChannel', () => {
+      dispatch(resetCurrentChannel());
       dispatch(channelsApi.util.invalidateTags(['Channels']));
       dispatch(messagesApi.util.invalidateTags(['Message']));
     });

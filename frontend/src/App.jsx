@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import MainPage from './components/MainPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
+import SignUp from './components/SignUp.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
 import store from './slices/index.js';
 
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path = '/' element={<MainPage />} />
           <Route path = '/login' element={<LoginPage />} />
+          <Route path = '/signup' element={<SignUp />} />
           <Route path = '*' element={<NotFoundPage />} />
         </Routes>
       </Router>

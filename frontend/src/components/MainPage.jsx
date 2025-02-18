@@ -20,9 +20,8 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   dispatch(logIn(user));
-
-  const { data: channels = [], status: isChannelsLoading } = useFetchChannelsQuery();
-  const { data: messages = [], status: isMessagesLoading } = useFetchMessagesQuery();
+  const { data: channels, status: isChannelsLoading } = useFetchChannelsQuery();
+  const { data: messages, status: isMessagesLoading } = useFetchMessagesQuery();
 
   useEffect(() => {
     const socket = io();
@@ -36,6 +35,13 @@ const MainPage = () => {
       dispatch(messagesApi.util.invalidateTags(['Message']));
     });
     socket.on('newChannel', () => {
+      dispatch(channelsApi.util.invalidateTags(['Channels']));
+    });
+    socket.on('removeChannel', () => {
+      dispatch(channelsApi.util.invalidateTags(['Channels']));
+      dispatch(messagesApi.util.invalidateTags(['Message']));
+    });
+    socket.on('renameChannel', () => {
       dispatch(channelsApi.util.invalidateTags(['Channels']));
     });
   }, [isChannelsLoading, isMessagesLoading]);  

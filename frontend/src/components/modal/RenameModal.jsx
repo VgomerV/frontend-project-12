@@ -1,20 +1,22 @@
 import axios from 'axios';
 import { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { useEditChannelMutation } from '../../api/channelsApi.js';
 import * as yup from 'yup';
 
-const AddModal = ({ modalState, handleClose }) => {
-  const dispatch = useDispatch();
+const RenameModal = ({ modalState, handleClose }) => {
   const { auth } = useSelector((state) => state);
   const { token } = auth;
+  const { channel } = modalState;
   const { channelsList } = useSelector((state) => state.channels);
   const channelNames = channelsList.map(({ name }) => name);
+
+  const [editChannel, { error: editChannelError, isLoading: isEditChannel }] = useEditChannelMutation();
 
   const channelNameValidationSchema = yup.object().shape({
     channelName: yup.string()
@@ -26,22 +28,15 @@ const AddModal = ({ modalState, handleClose }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: '',
+      channelName: channel.name,
     },
     validationSchema: channelNameValidationSchema,
     validateOnBlur: false,
     validateOnChange: false,
-    onSubmit: (values, { resetForm }) => {
-        const newChannel = { name: values.channelName, removable: true };
-        axios.post('/api/v1/channels', newChannel, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }).then(({ data }) => {
-          dispatch(setCurrentChannel(data));
-          handleClose();
-        });
-        resetForm();
+    onSubmit: (values) => {
+        const newChannelName = values.channelName;
+        editChannel({ id: channel.id, channel: { name: newChannelName } });
+        handleClose();
     },
   });
 
@@ -58,11 +53,11 @@ const AddModal = ({ modalState, handleClose }) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Label hidden>Добавить канал</Form.Label>
+          <Form.Label hidden>Переименовать канал</Form.Label>
           <Form.Control
             className="mb-3"
             type="text"
@@ -84,4 +79,4 @@ const AddModal = ({ modalState, handleClose }) => {
   );
 };
 
-export default AddModal;
+export default RenameModal;

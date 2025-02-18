@@ -12,7 +12,6 @@ const initialState = {
   channelsList: [],
   currentChannelID: '1',
   currentChannelName: null,
-  typeModal: null,
 };
 
 const channelsSlice = createSlice({
@@ -35,12 +34,15 @@ const channelsSlice = createSlice({
         currentChannelName: name,
       });
     },
-    setTypeModal: (state, { payload }) => {
-      Object.assign(state, { typeModal: payload });
+    resetCurrentChannel: (state) => {
+      Object.assign(state, {
+        currentChannelID: '1',
+        currentChannelName: null,
+      });
     },
   },
 });
 
-export const { addChannels, setCurrentChannel } = channelsSlice.actions;
+export const { addChannels, setCurrentChannel, resetCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

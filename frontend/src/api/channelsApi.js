@@ -19,8 +19,32 @@ const channelsApi = createApi({
       query: () => '',
       providesTags: ['Channels'],
     }),
+    addChannel: builder.mutation({
+      query: (id) => ({
+        url: id,
+        method: 'DELETE',
+      }),
+    }),
+    removeChannel: builder.mutation({
+      query: (id) => ({
+        url: id,
+        method: 'DELETE',
+      }),
+    }),
+    editChannel: builder.mutation({
+      query: ({ id, channel }) => ({
+        url: id,
+        method: 'PATCH',
+        body: channel,
+      }),
+    }),
   }),
 });
 
-export const { useFetchChannelsQuery } = channelsApi;
+export const {
+  useFetchChannelsQuery,
+  useRemoveChannelMutation,
+  useEditChannelMutation,
+} = channelsApi;
+
 export default channelsApi;

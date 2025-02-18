@@ -10,9 +10,6 @@ const Chat = () => {
   const { messagesList } = messages;
   const currentMessages = messagesList.filter((message) => message.channelId === currentChannelID);
   const countMessages = currentMessages.length;
-  // const { ids, entities } = messages;
-  // const messagesList = ids.map(id => entities[id]).filter((message) => message.channelId === currentChannelID);
-  // const countMessages = messagesList.length;
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +22,7 @@ const Chat = () => {
                 Authorization: `Bearer ${token}`,
             },
         }).then(({ data }) => {
-          console.log('WORK CONSOL');
+
         })
         .catch(error => {
           console.log(error);

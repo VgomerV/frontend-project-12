@@ -1,29 +1,30 @@
 import React from 'react';
+import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import cn from 'classnames';
 import { useSignupMutation } from '../api/authApi.js'
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-
   const [signup] = useSignupMutation();
 
   const signupValidationSchema = yup.object().shape({
-    username: yup.string()
+    username: yup
+      .string()
       .min(3, 'От 3 до 20 символов')
       .max(20,'От 3 до 20 символов')
       .required('Обязательное поле'),
-    password: yup.string()
+    password: yup
+      .string()
       .min(6, 'Не менее 6 символов')
       .required('Обязательное поле'),
-    confirmPassword: yup.string()
-      .oneOf(
-        [yup.ref('password'), null],
-        'Пароли должны совпадать',
-      )
-      .required('Обязательное поле'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
+      .required('Пароли должны совпадать'),
   });
 
   const formik = useFormik({
@@ -33,6 +34,7 @@ const SignUpForm = () => {
       confirmPassword: '',
     },
     validationSchema: signupValidationSchema,
+    validateOnChange: true,
     onSubmit: async ({ username, password }) => {
       const { data } = await signup({ username, password });
       localStorage.setItem('user', JSON.stringify(data));
@@ -40,59 +42,71 @@ const SignUpForm = () => {
     },
   });
 
-  const classInput = cn({ 
-    'form-control': true,
-    'is-invalid': false ? true : false,
-  });
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);  
 
   return (
-    <form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-md-0">
+    <Form className="w-50" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">Регистрация</h1>
-      <div className="form-floating mb-3">
-          <input
+      <FloatingLabel
+        className="mb-3"
+        label="Имя пользователя"
+        controlId="username"
+      >
+        <Form.Control
           type="text"
           name="username"
           id="username"
-          className={classInput}
+          className={formik.touched.username && formik.errors.username ? 'is-invalid' : ''}
           autocomplete="username"
-          required
-          autoFocus
           placeholder="Имя пользователя"
           onChange={formik.handleChange}
           value={formik.values.username}
+          onBlur={formik.handleBlur}
+          ref={inputRef}
         />
-        <label htmlFor="username">Имя пользователя</label>
-      </div>
-      <div className="form-floating mb-4">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className={classInput}
-            required
-            autocomplete="current-password"
-            placeholder="Пароль"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          <label htmlFor="password" className="form-label">Пароль</label>
-      </div>
-      <div className="form-floating mb-4">
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            className={classInput}
-            required
-            autocomplete="current-password"
-            placeholder="Пароль"
-            onChange={formik.handleChange}
-            value={formik.values.confirmPassword}
-          />
-          <label htmlFor="confirmPassword" className="form-label">Подтвердите пароль</label>
-      </div>
+        <div placement="right" class="invalid-tooltip">{formik.errors.username}</div>
+      </FloatingLabel>
+      <FloatingLabel
+        className="mb-3"
+        label="Пароль"
+        controlId="password"
+      >
+        <Form.Control
+          type="password"
+          name="password"
+          id="password"
+          className={formik.touched.password && formik.errors.password ? 'is-invalid' : ''}
+          autocomplete="password"
+          placeholder="Пароль"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          onBlur={formik.handleBlur}
+        />
+        <div placement="right" class="invalid-tooltip">{formik.errors.password}</div>
+      </FloatingLabel>
+      <FloatingLabel
+        className="mb-3"
+        label="Подтвердите пароль"
+        controlId="password"
+      >
+        <Form.Control
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          className={formik.touched.confirmPassword && formik.errors.confirmPassword ? 'is-invalid' : ''}
+          autocomplete="confirmPassword"
+          placeholder="Подтвердите пароль"
+          onChange={formik.handleChange}
+          value={formik.values.confirmPassword}
+          onBlur={formik.handleBlur}
+        />
+        <div placement="right" class="invalid-tooltip">{formik.errors.confirmPassword}</div>
+      </FloatingLabel>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Зарегистрироваться</button>
-    </form>
+    </Form>
   );
 };
 

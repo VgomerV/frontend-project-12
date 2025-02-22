@@ -1,13 +1,16 @@
 import React from 'react';
 import { useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { logIn } from '../slices/authSlice.js';
 import { useSignupMutation } from '../api/authApi.js'
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signup] = useSignupMutation();
 
@@ -34,10 +37,11 @@ const SignUpForm = () => {
       confirmPassword: '',
     },
     validationSchema: signupValidationSchema,
-    validateOnChange: true,
     onSubmit: async ({ username, password }) => {
       const { data } = await signup({ username, password });
-      localStorage.setItem('user', JSON.stringify(data));
+      const { token } = data;
+      localStorage.setItem('token', token);
+      dispatch(logIn(data));
       navigate('/');
     },
   });
@@ -66,6 +70,7 @@ const SignUpForm = () => {
           value={formik.values.username}
           onBlur={formik.handleBlur}
           ref={inputRef}
+          required
         />
         <div placement="right" class="invalid-tooltip">{formik.errors.username}</div>
       </FloatingLabel>
@@ -84,13 +89,14 @@ const SignUpForm = () => {
           onChange={formik.handleChange}
           value={formik.values.password}
           onBlur={formik.handleBlur}
+          required
         />
-        <div placement="right" class="invalid-tooltip">{formik.errors.password}</div>
+        <div placement="right" class="invalid-tooltip">{formik.touched.password ? formik.errors.password : ''}</div>
       </FloatingLabel>
       <FloatingLabel
         className="mb-3"
         label="Подтвердите пароль"
-        controlId="password"
+        controlId="confirmPassword"
       >
         <Form.Control
           type="password"
@@ -103,7 +109,7 @@ const SignUpForm = () => {
           value={formik.values.confirmPassword}
           onBlur={formik.handleBlur}
         />
-        <div placement="right" class="invalid-tooltip">{formik.errors.confirmPassword}</div>
+        <div placement="right" class="invalid-tooltip">{formik.touched.password ? formik.errors.confirmPassword : ''}</div>
       </FloatingLabel>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Зарегистрироваться</button>
     </Form>

@@ -6,7 +6,8 @@ const messagesApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: getRoute('messages'),
     prepareHeaders: (headers) => {
-      const { token } = JSON.parse(localStorage.getItem('user'));
+      const token = localStorage.getItem('token');
+
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }

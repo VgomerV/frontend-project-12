@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 
 // const ChannelsList = () => {
 //   return (
@@ -41,18 +41,6 @@ import { useDispatch, useSelector } from 'react-redux';
 //                 <Dropdown.Item>Переименовать</Dropdown.Item>
 //               </Dropdown.Menu>
 //             </Dropdown>
-//             {/* <EditChannelModal
-//               channelId={channel.id}
-//               showModalHandler={showEditModal}
-//               closeModalHandler={handleCloseEditModal}
-//               submitHandler={handlers.handleEdit}
-//             />
-//             <RemoveChannelModal
-//               channelId={channel.id}
-//               showModalHandler={showRemoveModal}
-//               closeModalHandler={handleCloseRemoveModal}
-//               submitHandler={handlers.handleRemove}
-//             /> */}
 //           </li>
 //         );
 //       })}

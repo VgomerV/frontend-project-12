@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Navbar from './Navbar.jsx';
@@ -7,20 +7,22 @@ import channelsApi, { useFetchChannelsQuery } from '../api/channelsApi.js';
 import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
 import Channels from './channels/Channels';
 import Chat from './Chat';
-import { logIn } from '../slices/authSlice.js';
+// import { logIn } from '../slices/authSlice.js';
 import { addChannels, resetCurrentChannel } from '../slices/channelsSlice';
 import { addMessages } from '../slices/messagesSlice';
 
 const MainPage = () => {
   // localStorage.removeItem('token');
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (!user.token) {
-    return <Navigate to="/login" />;
+  const token = localStorage.getItem('token');
+
+  const navigate = useNavigate();
+  
+  if (!token) {
+    navigate('/login');
   }
 
   const dispatch = useDispatch();
 
-  dispatch(logIn(user));
   const { data: channels, status: isChannelsLoading } = useFetchChannelsQuery();
   const { data: messages, status: isMessagesLoading } = useFetchMessagesQuery();
 
@@ -46,7 +48,9 @@ const MainPage = () => {
     socket.on('renameChannel', () => {
       dispatch(channelsApi.util.invalidateTags(['Channels']));
     });
-  }, [isChannelsLoading, isMessagesLoading]);  
+  }, [isChannelsLoading, isMessagesLoading]);
+
+  useEffect(() => console.log('RENDER MAIN PAGE'), []);
 
   return (
     <div className="d-flex flex-column h-100">

@@ -90,18 +90,6 @@ const Channels = () => {
                   <Dropdown.Item onClick={() => handleShow(true, 'edit', channel)}>Переименовать</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              {/* <EditChannelModal
-                channelId={channel.id}
-                showModalHandler={showEditModal}
-                closeModalHandler={handleCloseEditModal}
-                submitHandler={handlers.handleEdit}
-              />
-              <RemoveChannelModal
-                channelId={channel.id}
-                showModalHandler={showRemoveModal}
-                closeModalHandler={handleCloseRemoveModal}
-                submitHandler={handlers.handleRemove}
-              /> */}
             </li>
           );
         })}

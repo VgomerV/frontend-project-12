@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { setCurrentChannel } from '../slices/channelsSlice.js';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
-import AddModal from '../modal/AddChannel.jsx';
-import RemoveModal from '../modal/RemoveChannel.jsx';
-import RenameModal from '../modal/RenameModal.jsx';
+import AddModal from './modal/AddChannel.jsx';
+import RemoveModal from './modal/RemoveChannel.jsx';
+import RenameModal from './modal/RenameModal.jsx';
 
 const modalType = {
   add: AddModal,

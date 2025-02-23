@@ -9,7 +9,7 @@ import { logIn } from '../slices/authSlice.js';
 import { useLoginMutation } from '../api/authApi.js'
 
 const LoginForm = () => {
-  const [errorAuthorized, setErrorAuthorized] = useState();
+  const [errorAuthorized, setErrorAuthorized] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,12 +23,13 @@ const LoginForm = () => {
     onSubmit: async ({ username, password }) => {
       const { data, error } = await login({ username, password });
 
-      localStorage.setItem('token', data.token);
-      dispatch(logIn(data));
-
-      error 
-        ? setErrorAuthorized('Неверные имя пользователя или пароль')
-        : navigate('/');
+      if (!error) {
+        localStorage.setItem('token', data.token);
+        dispatch(logIn(data));
+        navigate('/');
+      } else {
+        setErrorAuthorized('Неверные имя пользователя или пароль');
+      }
     },
   });
 

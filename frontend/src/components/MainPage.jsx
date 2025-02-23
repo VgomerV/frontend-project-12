@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Navbar from './Navbar.jsx';
 import channelsApi, { useFetchChannelsQuery } from '../api/channelsApi.js';
 import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
-import Channels from './channels/Channels';
+import Channels from './Channels';
 import Chat from './Chat';
 // import { logIn } from '../slices/authSlice.js';
 import { addChannels, resetCurrentChannel } from '../slices/channelsSlice';
@@ -26,28 +26,27 @@ const MainPage = () => {
   const { data: channels, status: isChannelsLoading } = useFetchChannelsQuery();
   const { data: messages, status: isMessagesLoading } = useFetchMessagesQuery();
 
-  useEffect(() => {
-    const socket = io();
+  const socket = io();
+  socket.on('newMessage', () => {
+    dispatch(messagesApi.util.invalidateTags(['Message']));
+  });
+  socket.on('newChannel', () => {
+    dispatch(channelsApi.util.invalidateTags(['Channels']));
+  });
+  socket.on('removeChannel', () => {
+    dispatch(resetCurrentChannel());
+    dispatch(channelsApi.util.invalidateTags(['Channels']));
+    dispatch(messagesApi.util.invalidateTags(['Message']));
+  });
+  socket.on('renameChannel', () => {
+    dispatch(channelsApi.util.invalidateTags(['Channels']));
+  });
 
+  useEffect(() => {
     if (isChannelsLoading === 'fulfilled' && isMessagesLoading === 'fulfilled') {
       dispatch(addChannels({ channels }));
       dispatch(addMessages(messages));
     }
-
-    socket.on('newMessage', () => {
-      dispatch(messagesApi.util.invalidateTags(['Message']));
-    });
-    socket.on('newChannel', () => {
-      dispatch(channelsApi.util.invalidateTags(['Channels']));
-    });
-    socket.on('removeChannel', () => {
-      dispatch(resetCurrentChannel());
-      dispatch(channelsApi.util.invalidateTags(['Channels']));
-      dispatch(messagesApi.util.invalidateTags(['Message']));
-    });
-    socket.on('renameChannel', () => {
-      dispatch(channelsApi.util.invalidateTags(['Channels']));
-    });
   }, [isChannelsLoading, isMessagesLoading]);
 
   useEffect(() => console.log('RENDER MAIN PAGE'), []);

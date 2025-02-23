@@ -1,14 +1,16 @@
-import { useDispatch } from 'react-redux';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import {
+  Container,
+  Button,
+  Modal,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useRemoveChannelMutation } from '../../api/channelsApi.js';
 
 const RemoveModal = ({ modalState, handleClose }) => {
-  const dispatch = useDispatch();
   const { channel } = modalState;
+  const { t } = useTranslation();
 
-  const [removeChannel, { error: removeChannelError, isLoading: isRemovingChannel }] = useRemoveChannelMutation();
+  const [removeChannel] = useRemoveChannelMutation();
   const removeChannelHandler = (id) => {
     removeChannel(id);
     handleClose();
@@ -22,13 +24,13 @@ const RemoveModal = ({ modalState, handleClose }) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.remove.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Уверены?
+      {t('modals.remove.question')}
         <Container className="d-flex justify-content-end px-0">
-          <Button variant="secondary" className="me-2" onClick={handleClose}>Отменить</Button>
-          <Button variant="danger" type="submit" onClick={() => removeChannelHandler(channel.id)}>Удалить</Button>
+          <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.remove.cancell')}</Button>
+          <Button variant="danger" type="submit" onClick={() => removeChannelHandler(channel.id)}>{t('modals.remove.submit')}</Button>
         </Container>
       </Modal.Body>
     </Modal>    

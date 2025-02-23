@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import getRoute from '../utilites/routes.js';
+import getRoute from '../utilites/routes';
 
 const authApi = createApi({
   reducerPath: 'authApi',

@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 import { logOut } from '../slices/authSlice.js';
 
 const Navbar = () => {
   const token = localStorage.getItem('token');
-  const isAuthorized = token;
-
+  const isAuthorized = !!token;
+  const { t } = useTranslation();
   const dispach = useDispatch();
   const navigate = useNavigate();
 
@@ -17,13 +17,11 @@ const Navbar = () => {
     navigate('/login');
   }
 
-  useEffect(() => console.log('RENDER NAVBAR'), [])
-
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">Hexlet Chat</a>
-        {isAuthorized ? <Button variant="primary" onClick={handleLogOut}>Выйти</Button> : null}
+        <a className="navbar-brand" href="/">{t('navbar.title')}</a>
+        {isAuthorized ? <Button variant="primary" onClick={handleLogOut}>{t('navbar.logOutBtn')}</Button> : null}
       </div>
     </nav>
   );

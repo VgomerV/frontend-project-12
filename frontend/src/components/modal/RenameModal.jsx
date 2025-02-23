@@ -1,28 +1,29 @@
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { useEditChannelMutation } from '../../api/channelsApi.js';
+import {
+  Container,
+  Button,
+  Form,
+  Modal,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { useEditChannelMutation } from '../../api/channelsApi.js';
 
 const RenameModal = ({ modalState, handleClose }) => {
-  const { auth } = useSelector((state) => state);
-  const { token } = auth;
   const { channel } = modalState;
   const { channelsList } = useSelector((state) => state.channels);
   const channelNames = channelsList.map(({ name }) => name);
-
-  const [editChannel, { error: editChannelError, isLoading: isEditChannel }] = useEditChannelMutation();
+  const { t } = useTranslation();
+  const [editChannel] = useEditChannelMutation();
 
   const channelNameValidationSchema = yup.object().shape({
     channelName: yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(channelNames, 'Должно быть уникальным')
-      .required('Обязательное поле'),
+    .min(3, t('modals.errors.maxMinLength'))
+    .max(20, t('modals.errors.maxMinLength'))
+    .notOneOf(channelNames, t('modals.errors.unique'))
+    .required(t('modals.errors.require')),
   });
 
   const formik = useFormik({
@@ -52,11 +53,11 @@ const RenameModal = ({ modalState, handleClose }) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modals.rename.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Label hidden>Переименовать канал</Form.Label>
+          <Form.Label hidden>{t('modals.rename.title')}</Form.Label>
           <Form.Control
             className="mb-3"
             type="text"
@@ -69,8 +70,8 @@ const RenameModal = ({ modalState, handleClose }) => {
           />
           <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
           <Container className="d-flex justify-content-end px-0">
-            <Button variant="secondary" className="me-2" onClick={handleClose}>Отменить</Button>
-            <Button variant="primary" type="submit">Отправить</Button>
+            <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.rename.cancell')}</Button>
+            <Button variant="primary" type="submit">{t('modals.rename.submit')}</Button>
           </Container>
         </Form>
       </Modal.Body>

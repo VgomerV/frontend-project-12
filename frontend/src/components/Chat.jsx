@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 
@@ -14,10 +14,11 @@ const Chat = () => {
   const { messagesList } = messages;
   const currentMessages = messagesList.filter((message) => message.channelId === currentChannelID);
   const countMessages = currentMessages.length;
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
-      message: "",
+      message: '',
     },
     onSubmit: (values, { resetForm }) => {
         const newMessage = { body: values.message, channelId: currentChannelID, username: username };
@@ -25,11 +26,6 @@ const Chat = () => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        }).then(({ data }) => {
-
-        })
-        .catch(error => {
-          console.log(error);
         });
         resetForm();
     },
@@ -45,7 +41,7 @@ const Chat = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0"><b># {currentChannelName}</b></p>
-          <span className="text-muted">{countMessages} сообщений</span>
+          <span className="text-muted">{t('chatPage.countMessages.count', { count: countMessages })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
           {currentMessages.map(({ username, body }) => <div key={uniqueId()} className="text-break mb-2"><b>{username}</b>: {body}</div>)}
@@ -57,15 +53,15 @@ const Chat = () => {
                 type="text"
                 className="border-0 p-0 ps-2"
                 name="message"
-                aria-label="Новое сообщение"
-                placeholder="Введите сообщение..."
+                aria-label={t('chatPage.areaMessages')}
+                placeholder={t('chatPage.messageField')}
                 value={formik.values.message}
                 onChange={formik.handleChange}
                 ref={inputRef}
               />
               <button type="submit" className="btn btn-group-vertical" disabled={formik.values.message === ''}>
                 <ArrowRightSquare width="20" height="20" />
-                <span className="visually-hidden">Отправить</span>
+                <span className="visually-hidden">{t('chatPage.submit')}</span>
               </button>
             </InputGroup>
           </Form>

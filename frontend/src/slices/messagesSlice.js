@@ -1,15 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import axios from 'axios';
-
-// export const fetchMessages = createAsyncThunk(
-//   'messages/fetchMessages',
-//   async () => {
-//     const response = await axios.get('api/v1/messages', { headers: { Authorization: `Bearer ${localStorage.token}` } });
-//     return response.data;
-//   },
-// );
-
-// const messagesAdapter = createEntityAdapter({});
 
 const initialState = {
   messagesList: [],
@@ -17,7 +6,6 @@ const initialState = {
 
 const messagesSlice = createSlice({
   name: 'channels',
-  // initialState: messagesAdapter.getInitialState(),
   initialState,
   reducers: {
     addMessages: (state, { payload }) => {

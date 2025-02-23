@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ButtonGroup, Button, Dropdown } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { uniqueId } from 'lodash';
 import { setCurrentChannel } from '../slices/channelsSlice.js';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
 import AddModal from './modal/AddChannel.jsx';
 import RemoveModal from './modal/RemoveChannel.jsx';
 import RenameModal from './modal/RenameModal.jsx';
@@ -31,18 +30,19 @@ const Channels = () => {
     return <Modal modalState={modalState} handleClose={handleClose} />;
   }
 
-  const { channelsList, currentChannelID } =useSelector((state) => state.channels);
+  const { channelsList, currentChannelID } = useSelector((state) => state.channels);
   const dispatch = useDispatch();
 
   const [modalState, setModalState] = useState(initStateModal);
 
   const handleClose = () => setModalState(initStateModal);
   const handleShow = (isShow, type, channel = {}) => setModalState({ isShow, type, channel });
+  const { t } = useTranslation();
    
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          <b>Каналы</b>
+          <b>{t('channels.title')}</b>
           <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => handleShow(true, 'add')}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
               <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>
@@ -83,11 +83,11 @@ const Channels = () => {
                   {name}
                 </Button>
                 <Dropdown.Toggle variant={variant}>
-                  <span className="visually-hidden">Управление каналом</span>
+                  <span className="visually-hidden">{t('channels.controlTitle')}</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => handleShow(true, 'remove', channel)}>Удалить</Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleShow(true, 'edit', channel)}>Переименовать</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShow(true, 'remove', channel)}>{t('channels.btnRemove')}</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleShow(true, 'edit', channel)}>{t('channels.btnRename')}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </li>

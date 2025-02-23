@@ -1,20 +1,17 @@
-import { io } from "socket.io-client";
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { io } from "socket.io-client";
 import Navbar from './Navbar.jsx';
-import channelsApi, { useFetchChannelsQuery } from '../api/channelsApi.js';
-import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
 import Channels from './Channels';
 import Chat from './Chat';
-// import { logIn } from '../slices/authSlice.js';
-import { addChannels, resetCurrentChannel } from '../slices/channelsSlice';
-import { addMessages } from '../slices/messagesSlice';
+import channelsApi, { useFetchChannelsQuery } from '../api/channelsApi.js';
+import messagesApi, { useFetchMessagesQuery } from '../api/messagesApi.js';
+import { addChannels, resetCurrentChannel } from '../slices/channelsSlice.js';
+import { addMessages } from '../slices/messagesSlice.js';
 
 const MainPage = () => {
-  // localStorage.removeItem('token');
   const token = localStorage.getItem('token');
-
   const navigate = useNavigate();
   
   if (!token) {
@@ -22,7 +19,6 @@ const MainPage = () => {
   }
 
   const dispatch = useDispatch();
-
   const { data: channels, status: isChannelsLoading } = useFetchChannelsQuery();
   const { data: messages, status: isMessagesLoading } = useFetchMessagesQuery();
 
@@ -48,8 +44,6 @@ const MainPage = () => {
       dispatch(addMessages(messages));
     }
   }, [isChannelsLoading, isMessagesLoading]);
-
-  useEffect(() => console.log('RENDER MAIN PAGE'), []);
 
   return (
     <div className="d-flex flex-column h-100">

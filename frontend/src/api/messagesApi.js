@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import getRoute from '../utilites/routes.js';
+import getRoute from '../utilites/routes';
 
 const messagesApi = createApi({
   reducerPath: 'messagesApi',
@@ -7,7 +7,6 @@ const messagesApi = createApi({
     baseUrl: getRoute('messages'),
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token');
-
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }

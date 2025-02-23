@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useDispatch } from 'react-redux';
+import { Form, FloatingLabel } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import cn from 'classnames';
 import { logIn } from '../slices/authSlice.js';
-import { useLoginMutation } from '../api/authApi.js'
+import { useLoginMutation } from '../api/authApi.js';
 
 const LoginForm = () => {
   const [errorAuthorized, setErrorAuthorized] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [login] = useLoginMutation();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +28,7 @@ const LoginForm = () => {
         dispatch(logIn(data));
         navigate('/');
       } else {
-        setErrorAuthorized('Неверные имя пользователя или пароль');
+        setErrorAuthorized(t('loginPage.error'));
       }
     },
   });
@@ -44,10 +44,10 @@ const LoginForm = () => {
 
   return (
     <Form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
-      <h1 className="text-center mb-4">Войти</h1>
+      <h1 className="text-center mb-4">{t('loginPage.title')}</h1>
       <FloatingLabel
         className="mb-3"
-        label="Ваш ник"
+        label={t('loginPage.usernameField')}
         controlId="username"
       >
         <Form.Control
@@ -56,7 +56,7 @@ const LoginForm = () => {
           id="username"
           className={classInput}
           autocomplete="username"
-          placeholder="Ваш ник"
+          placeholder={t('loginPage.usernameField')}
           onChange={formik.handleChange}
           value={formik.values.username}
           ref={inputRef}
@@ -65,7 +65,7 @@ const LoginForm = () => {
       </FloatingLabel>
       <FloatingLabel
         className="mb-3"
-        label="Пароль"
+        label={t('loginPage.passwordField')}
         controlId="password"
       >
         <Form.Control
@@ -74,7 +74,7 @@ const LoginForm = () => {
           id="password"
           className={classInput}
           autocomplete="password"
-          placeholder="Пароль"
+          placeholder={t('loginPage.passwordField')}
           onChange={formik.handleChange}
           value={formik.values.password}
           onBlur={formik.handleBlur}
@@ -82,7 +82,7 @@ const LoginForm = () => {
         />
         <div placement="right" class="invalid-tooltip">{errorAuthorized}</div>
       </FloatingLabel>
-      <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+      <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginPage.submit')}</button>
     </Form>
   );
 };

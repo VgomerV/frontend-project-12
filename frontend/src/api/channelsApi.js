@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { useSelector } from 'react-redux';
-import getRoute from '../utilites/routes.js';
+import getRoute from '../utilites/routes';
 
 const channelsApi = createApi({
   reducerPath: 'channelsApi',

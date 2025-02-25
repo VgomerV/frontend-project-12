@@ -33,6 +33,7 @@ const LoginForm = () => {
       } catch (errorStatus) {
         if (errorStatus === 401) {
           setErrorAuthorized(t('loginPage.error'));
+          throw new Error("Test error");
         } else {
           toast.error(t('networkError'));
         }

@@ -34,9 +34,15 @@ const App = () => {
       captureUnhandledRejections: true,
     };
 
+    function TestError() {
+      const a = null;
+      return a.hello();
+    }
+
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
+        <TestError />
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
             <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>

@@ -28,21 +28,15 @@ const App = () => {
     filter.add(ru);
 
     const rollbarConfig = {
-      accessToken: 'dcf03e877a0d407387cb8a3404559e99',
+      accessToken: import.meta.env.ROLLBAR_ACCESS_TOKEN,
       environment: 'production',
       captureUncaught: true,
       captureUnhandledRejections: true,
     };
 
-    // function TestError() {
-    //   const a = null;
-    //   return a.hello();
-    // }
-
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        {/* <TestError /> */}
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
             <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>

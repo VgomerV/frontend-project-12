@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18next from 'i18next';
+import { ToastContainer, Bounce } from 'react-toastify';
 import MainPage from './components/MainPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import SignUp from './components/SignUp.jsx';
@@ -25,6 +26,19 @@ const App = () => {
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
         <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              transition={Bounce}
+            />
           <Routes>
             <Route path = '/' element={<MainPage />} />
             <Route path = '/login' element={<LoginPage />} />

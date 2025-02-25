@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { useEditChannelMutation } from '../../api/channelsApi.js';
 
 const RenameModal = ({ modalState, handleClose }) => {
@@ -37,6 +38,7 @@ const RenameModal = ({ modalState, handleClose }) => {
         const newChannelName = values.channelName;
         editChannel({ id: channel.id, channel: { name: newChannelName } });
         handleClose();
+        toast.success(t('toasts.rename'));
     },
   });
 

@@ -4,6 +4,7 @@ import {
   Modal,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../api/channelsApi.js';
 
 const RemoveModal = ({ modalState, handleClose }) => {
@@ -14,6 +15,7 @@ const RemoveModal = ({ modalState, handleClose }) => {
   const removeChannelHandler = (id) => {
     removeChannel(id);
     handleClose();
+    toast.success(t('toasts.remove'));
   };
 
   return (

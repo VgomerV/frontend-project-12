@@ -70,5 +70,12 @@ export default {
         cancell: 'Отменить',
       },
     },
+    toasts: {
+      add: 'Канал создан',
+      remove: 'Канал удалён',
+      rename: 'Канал переименован',
+    },
+    networkError: 'Ошибка соединения',
+    errorRegistration: 'Такой пользователь уже существует',
   },
 };

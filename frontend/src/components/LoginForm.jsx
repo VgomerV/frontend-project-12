@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Form, FloatingLabel } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import cn from 'classnames';
 import { logIn } from '../slices/authSlice.js';
@@ -21,14 +22,20 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async ({ username, password }) => {
-      const { data, error } = await login({ username, password });
+      try {
+        const { data, error } = await login({ username, password });
 
-      if (!error) {
+        if (error) throw error.status;
+
         localStorage.setItem('token', data.token);
         dispatch(logIn(data));
         navigate('/');
-      } else {
-        setErrorAuthorized(t('loginPage.error'));
+      } catch (errorStatus) {
+        if (errorStatus === 401) {
+          setErrorAuthorized(t('loginPage.error'));
+        } else {
+          toast.error(t('networkError'));
+        }
       }
     },
   });

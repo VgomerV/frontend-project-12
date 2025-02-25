@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const AddModal = ({ modalState, handleClose }) => {
@@ -44,6 +45,7 @@ const AddModal = ({ modalState, handleClose }) => {
         }).then(({ data }) => {
           dispatch(setCurrentChannel(data));
           handleClose();
+          toast.success(t('toasts.add'));
         });
         resetForm();
     },

@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const AddModal = ({ modalState, handleClose }) => {
@@ -37,7 +38,7 @@ const AddModal = ({ modalState, handleClose }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values, { resetForm }) => {
-        const newChannel = { name: values.channelName, removable: true };
+        const newChannel = { name: filter.clean(values.channelName), removable: true };
         axios.post('/api/v1/channels', newChannel, {
             headers: {
                 Authorization: `Bearer ${token}`,

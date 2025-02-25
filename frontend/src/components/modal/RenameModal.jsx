@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { useEditChannelMutation } from '../../api/channelsApi.js';
 
 const RenameModal = ({ modalState, handleClose }) => {
@@ -35,7 +36,7 @@ const RenameModal = ({ modalState, handleClose }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: (values) => {
-        const newChannelName = values.channelName;
+        const newChannelName = filter.clean(values.channelName);
         editChannel({ id: channel.id, channel: { name: newChannelName } });
         handleClose();
         toast.success(t('toasts.rename'));

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 
@@ -21,7 +22,7 @@ const Chat = () => {
       message: '',
     },
     onSubmit: (values, { resetForm }) => {
-        const newMessage = { body: values.message, channelId: currentChannelID, username: username };
+        const newMessage = { body: filter.clean(values.message), channelId: currentChannelID, username: username };
         axios.post('/api/v1/messages', newMessage, {
             headers: {
                 Authorization: `Bearer ${token}`,

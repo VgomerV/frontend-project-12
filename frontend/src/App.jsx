@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import i18next from 'i18next';
 import { ToastContainer, Bounce } from 'react-toastify';
+import filter from 'leo-profanity';
 import MainPage from './components/MainPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import SignUp from './components/SignUp.jsx';
@@ -22,6 +23,9 @@ const App = () => {
       },
       debug: false,
     });
+    const ru = filter.getDictionary('ru');
+    filter.add(ru);
+
   return (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>

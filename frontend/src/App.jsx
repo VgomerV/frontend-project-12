@@ -28,38 +28,41 @@ const App = () => {
     filter.add(ru);
 
     const rollbarConfig = {
-      accessToken: process.env.TOKEN_ROLLBAR,
+      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+      environment: 'production',
       captureUncaught: true,
       captureUnhandledRejections: true,
     };
 
   return (
     <RollbarProvider config={rollbarConfig}>
-      <I18nextProvider i18n={i18n}>
-        <Provider store={store}>
-          <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-                transition={Bounce}
-              />
-            <Routes>
-              <Route path = '/' element={<MainPage />} />
-              <Route path = '/login' element={<LoginPage />} />
-              <Route path = '/signup' element={<SignUp />} />
-              <Route path = '*' element={<NotFoundPage />} />
-            </Routes>
-          </Router>
-        </Provider>
-      </I18nextProvider>
+      <ErrorBoundary>
+        <I18nextProvider i18n={i18n}>
+          <Provider store={store}>
+            <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick={false}
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                  transition={Bounce}
+                />
+              <Routes>
+                <Route path = '/' element={<MainPage />} />
+                <Route path = '/login' element={<LoginPage />} />
+                <Route path = '/signup' element={<SignUp />} />
+                <Route path = '*' element={<NotFoundPage />} />
+              </Routes>
+            </Router>
+          </Provider>
+        </I18nextProvider>
+      </ErrorBoundary>
     </RollbarProvider>
   );
 };

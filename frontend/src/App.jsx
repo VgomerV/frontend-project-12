@@ -12,9 +12,9 @@ import NotFoundPage from './components/NotFoundPage.jsx';
 import store from './slices/index.js';
 import resources from './locales/index.js';
 import { config } from 'dotenv';
-config();
 
 const App = () => {
+  config();
   const i18n = i18next.createInstance();
   i18n
     .use(initReactI18next)

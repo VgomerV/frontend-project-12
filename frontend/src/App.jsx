@@ -13,7 +13,6 @@ import store from './slices/index.js';
 import resources from './locales/index.js';
 
 const App = () => {
-  console.log(import.meta.env.ROLLBAR_ACCESS_TOKEN);
   const i18n = i18next.createInstance();
   i18n
     .use(initReactI18next)
@@ -29,7 +28,7 @@ const App = () => {
     filter.add(ru);
 
     const rollbarConfig = {
-      accessToken: import.meta.env.ROLLBAR_ACCESS_TOKEN,
+      accessToken: 'dcf03e877a0d407387cb8a3404559e99',
       environment: 'production',
       captureUncaught: true,
       captureUnhandledRejections: true,

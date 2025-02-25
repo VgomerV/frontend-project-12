@@ -11,10 +11,9 @@ import SignUp from './components/SignUp.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
 import store from './slices/index.js';
 import resources from './locales/index.js';
-import { config } from 'dotenv';
 
 const App = () => {
-  config();
+  console.log(import.meta.env.ROLLBAR_ACCESS_TOKEN);
   const i18n = i18next.createInstance();
   i18n
     .use(initReactI18next)
@@ -30,21 +29,21 @@ const App = () => {
     filter.add(ru);
 
     const rollbarConfig = {
-      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+      accessToken: import.meta.env.ROLLBAR_ACCESS_TOKEN,
       environment: 'production',
       captureUncaught: true,
       captureUnhandledRejections: true,
     };
 
-    function TestError() {
-      const a = null;
-      return a.hello();
-    }
+    // function TestError() {
+    //   const a = null;
+    //   return a.hello();
+    // }
 
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <TestError />
+        {/* <TestError /> */}
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
             <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>

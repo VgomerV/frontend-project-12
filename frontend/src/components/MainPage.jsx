@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { io } from "socket.io-client";
 import Navbar from './Navbar.jsx';
 import Channels from './Channels';
@@ -19,8 +20,8 @@ const MainPage = () => {
   }
 
   const dispatch = useDispatch();
-  const { data: channels, status: isChannelsLoading } = useFetchChannelsQuery();
-  const { data: messages, status: isMessagesLoading } = useFetchMessagesQuery();
+  const { data: channels, status: isChannelsLoading, isErrorFetchChannels } = useFetchChannelsQuery();
+  const { data: messages, status: isMessagesLoading, isErrorFetchMessages } = useFetchMessagesQuery();
 
   const socket = io();
   socket.on('newMessage', () => {
@@ -39,6 +40,10 @@ const MainPage = () => {
   });
 
   useEffect(() => {
+    if (isErrorFetchChannels || isErrorFetchMessages) {
+      toast.error(t('networkError'));
+    }
+
     if (isChannelsLoading === 'fulfilled' && isMessagesLoading === 'fulfilled') {
       dispatch(addChannels({ channels }));
       dispatch(addMessages(messages));

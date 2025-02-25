@@ -15,7 +15,7 @@ export default {
       passwordField: 'Пароль',
       error: 'Неверные имя пользователя или пароль',
       submit: 'Войти',
-      footerText: 'Нет аккаута? ',
+      footerText: 'Нет аккаунта? ',
       footerLink: 'Регистрация',
     },
     registration: {

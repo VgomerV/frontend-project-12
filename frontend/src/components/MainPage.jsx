@@ -31,9 +31,9 @@ const MainPage = () => {
     dispatch(channelsApi.util.invalidateTags(['Channels']));
   });
   socket.on('removeChannel', () => {
-    dispatch(resetCurrentChannel());
     dispatch(channelsApi.util.invalidateTags(['Channels']));
     dispatch(messagesApi.util.invalidateTags(['Message']));
+    dispatch(resetCurrentChannel());
   });
   socket.on('renameChannel', () => {
     dispatch(channelsApi.util.invalidateTags(['Channels']));

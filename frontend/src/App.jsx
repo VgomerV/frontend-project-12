@@ -55,7 +55,7 @@ const App = () => {
                 />
               <Routes>
                 <Route path = '/' element={<MainPage />} />
-                <Route path = '/login' element={<LoginPage />} />
+                <Route path = '/login' element={<LoginPage test={rollbarConfig.accessToken}/>} />
                 <Route path = '/signup' element={<SignUp />} />
                 <Route path = '*' element={<NotFoundPage />} />
               </Routes>

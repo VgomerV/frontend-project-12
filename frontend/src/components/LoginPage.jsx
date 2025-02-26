@@ -3,8 +3,7 @@ import Navbar from './Navbar.jsx';
 import LoginForm from './LoginForm.jsx';
 import avatar from '../assets/avatar.jpg';
 
-const LoginPage = ({ test }) => {
-  console.log(test);
+const LoginPage = () => {
   const { t } = useTranslation();
 
   return (

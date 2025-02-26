@@ -28,7 +28,7 @@ const App = () => {
     filter.add(ru);
 
     const rollbarConfig = {
-      accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+      accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
       environment: 'production',
       captureUncaught: true,
       captureUnhandledRejections: true,
@@ -55,7 +55,7 @@ const App = () => {
                 />
               <Routes>
                 <Route path = '/' element={<MainPage />} />
-                <Route path = '/login' element={<LoginPage test={rollbarConfig.accessToken}/>} />
+                <Route path = '/login' element={<LoginPage test={rollbarConfig}/>} />
                 <Route path = '/signup' element={<SignUp />} />
                 <Route path = '*' element={<NotFoundPage />} />
               </Routes>

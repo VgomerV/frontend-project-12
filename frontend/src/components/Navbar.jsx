@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
@@ -10,11 +10,12 @@ const Navbar = () => {
   const { t } = useTranslation();
   const dispach = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
     dispach(logOut());
-    navigate('/login');
+    navigate(pathname);
   }
 
   return (

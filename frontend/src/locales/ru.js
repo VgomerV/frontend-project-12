@@ -55,6 +55,7 @@ export default {
       },
       add: {
         title: 'Добавить канал',
+        label: 'Имя канала',
         submit: 'Отправить',
         cancell: 'Отменить',
       },

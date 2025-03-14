@@ -69,7 +69,7 @@ const AddModal = ({ modalState, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Label hidden>{t('modals.add.title')}</Form.Label>
+          <Form.Label hidden>{t('modals.add.label')}</Form.Label>
           <Form.Control
             className="mb-3"
             type="text"

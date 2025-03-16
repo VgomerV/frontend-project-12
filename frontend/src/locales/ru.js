@@ -48,6 +48,7 @@ export default {
       btnRename: 'Переименовать',
     },
     modals: {
+      label: 'Имя канала',
       errors: {
         require: 'Обязательное поле',
         maxMinLength: 'От 3 до 20 символов',
@@ -55,7 +56,6 @@ export default {
       },
       add: {
         title: 'Добавить канал',
-        label: 'Имя канала',
         submit: 'Отправить',
         cancell: 'Отменить',
       },

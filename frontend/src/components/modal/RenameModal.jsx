@@ -45,7 +45,7 @@ const RenameModal = ({ modalState, handleClose }) => {
 
   const inputRef = useRef();
   useEffect(() => {
-    if (modalState.isShow) inputRef.current.focus();
+    if (modalState.isShow) inputRef.current.select();
   }, [modalState.isShow]);
 
   return (

@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import {
   Container,
@@ -12,13 +12,16 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { useEditChannelMutation } from '../../api/channelsApi.js';
+import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const RenameModal = ({ modalState, handleClose }) => {
+  const dispatch = useDispatch();
   const { channel } = modalState;
   const { channelsList } = useSelector((state) => state.channels);
   const channelNames = channelsList.map(({ name }) => name);
   const { t } = useTranslation();
   const [editChannel] = useEditChannelMutation();
+  const inputRef = useRef();
 
   const channelNameValidationSchema = yup.object().shape({
     channelName: yup.string()
@@ -35,18 +38,33 @@ const RenameModal = ({ modalState, handleClose }) => {
     validationSchema: channelNameValidationSchema,
     validateOnBlur: false,
     validateOnChange: false,
-    onSubmit: (values) => {
-        const newChannelName = filter.clean(values.channelName);
-        editChannel({ id: channel.id, channel: { name: newChannelName } });
-        handleClose();
-        toast.success(t('toasts.rename'));
+    onSubmit: async (values) => {
+      const newChannelName = filter.clean(values.channelName);
+      await editChannel({ id: channel.id, channel: { name: newChannelName } });
+      dispatch(setCurrentChannel(channel)); 
+      handleClose();
+      toast.success(t('toasts.rename'));
     },
   });
 
-  const inputRef = useRef();
   useEffect(() => {
-    if (modalState.isShow) inputRef.current.select();
+    if (modalState.isShow) {
+      setTimeout(() => inputRef.current?.select(), 0);
+    };
   }, [modalState.isShow]);
+
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const error = await formik.validateForm();
+      if (Object.keys(error).length > 0) {
+        inputRef.current?.setSelectionRange(0, 0);
+        inputRef.current?.blur();
+      } else {
+        formik.handleSubmit();
+      }
+    }
+  };
 
   return (
     <Modal
@@ -68,8 +86,9 @@ const RenameModal = ({ modalState, handleClose }) => {
             id="channelName"
             name="channelName"
             value={formik.values.channelName}
-            isInvalid={formik.errors.channelName}
+            isInvalid={!!formik.errors.channelName}
             ref={inputRef}
+            onKeyDown={handleKeyDown}
           />
           <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
           <Container className="d-flex justify-content-end px-0">

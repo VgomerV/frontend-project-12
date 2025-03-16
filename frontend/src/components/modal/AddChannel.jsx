@@ -13,14 +13,14 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { useAddChannelMutation } from '../../api/channelsApi.js';
 
 const AddModal = ({ modalState, handleClose }) => {
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
-  const { token } = auth;
   const { channelsList } = useSelector((state) => state.channels);
   const channelNames = channelsList.map(({ name }) => name);
   const { t } = useTranslation();
+  const [addChannel] = useAddChannelMutation();
 
   const channelNameValidationSchema = yup.object().shape({
     channelName: yup.string()
@@ -37,18 +37,13 @@ const AddModal = ({ modalState, handleClose }) => {
     validationSchema: channelNameValidationSchema,
     validateOnBlur: false,
     validateOnChange: false,
-    onSubmit: (values, { resetForm }) => {
-        const newChannel = { name: filter.clean(values.channelName), removable: true };
-        axios.post('/api/v1/channels', newChannel, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }).then(({ data }) => {
-          dispatch(setCurrentChannel(data));
-          handleClose();
-          toast.success(t('toasts.add'));
-        });
-        resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      resetForm();
+      handleClose();
+      const newChannel = { name: filter.clean(values.channelName), removable: true };
+      const { data } = await addChannel(newChannel);
+      dispatch(setCurrentChannel(data));
+      toast.success(t('toasts.add'));
     },
   });
 

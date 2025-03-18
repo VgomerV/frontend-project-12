@@ -55,10 +55,10 @@ const Chat = () => {
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
           {currentMessages.map((message) => (
-              <div key={uniqueId()} className="text-break mb-2">
-                <b>{message.username}</b>
-                {`: ${message.body}`}
-              </div>
+            <div key={uniqueId()} className="text-break mb-2">
+              <b>{message.username}</b>
+              {`: ${message.body}`}
+            </div>
           ))}
         </div>
         <div className="mt-auto px-5 py-3">

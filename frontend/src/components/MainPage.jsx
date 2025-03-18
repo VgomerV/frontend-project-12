@@ -66,7 +66,7 @@ const MainPage = () => {
     isErrorFetchChannels,
     isErrorFetchMessages,
     messages,
-    t
+    t,
   ]);
 
   return (

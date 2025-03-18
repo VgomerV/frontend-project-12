@@ -54,14 +54,12 @@ const Chat = () => {
           <span className="text-muted">{t('chatPage.countMessages.count', { count: countMessages })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {currentMessages.map(({ username, body }) => {
-            return (
+          {currentMessages.map((message) => (
               <div key={uniqueId()} className="text-break mb-2">
-                <b>{username}</b>
-                {`: ${body}`} 
+                <b>{message.username}</b>
+                {`: ${message.body}`}
               </div>
-            );
-          })}
+          ))}
         </div>
         <div className="mt-auto px-5 py-3">
           <Form className="py-1 border rounded-2" noValidate onSubmit={formik.handleSubmit}>

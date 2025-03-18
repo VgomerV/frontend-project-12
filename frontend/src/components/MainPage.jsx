@@ -25,12 +25,12 @@ const MainPage = () => {
   const {
     data: channels,
     status: isChannelsLoading,
-    isErrorFetchChannels
+    isErrorFetchChannels,
   } = useFetchChannelsQuery();
   const {
     data: messages,
     status: isMessagesLoading,
-    isErrorFetchMessages
+    isErrorFetchMessages,
   } = useFetchMessagesQuery();
 
   const socket = io();
@@ -58,7 +58,16 @@ const MainPage = () => {
       dispatch(addChannels({ channels }));
       dispatch(addMessages(messages));
     }
-  }, [isChannelsLoading, isMessagesLoading, channels, dispatch, isErrorFetchChannels, isErrorFetchMessages, messages]);
+  }, [
+    isChannelsLoading,
+    isMessagesLoading,
+    channels,
+    dispatch,
+    isErrorFetchChannels,
+    isErrorFetchMessages,
+    messages,
+    t
+  ]);
 
   return (
     <div className="d-flex flex-column h-100">

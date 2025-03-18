@@ -75,12 +75,12 @@ const AddModal = ({ modalState, handleClose }) => {
               isInvalid={formik.errors.channelName}
               ref={inputRef}
             />
+            <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
+            <Container className="d-flex justify-content-end px-0">
+              <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.add.cancell')}</Button>
+              <Button variant="primary" type="submit">{t('modals.add.submit')}</Button>
+            </Container>
           </Form.Group>
-          <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
-          <Container className="d-flex justify-content-end px-0">
-            <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.add.cancell')}</Button>
-            <Button variant="primary" type="submit">{t('modals.add.submit')}</Button>
-          </Container>
         </Form>
       </Modal.Body>
     </Modal>

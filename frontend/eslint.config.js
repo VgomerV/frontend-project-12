@@ -1,61 +1,30 @@
 import globals from 'globals';
+import pluginReact from 'eslint-plugin-react';
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
-import pluginJs from '@eslint/js';
-import importPlugin from 'eslint-plugin-import';
-
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: pluginJs.configs.recommended,
-});
-
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-    ignores: ['dist/'],
-  },
+  { files: ['**/*.{js,jsx}'] },
+  { ignores: ['/node_modules/', 'dist/'] },
   {
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-        ...globals.browser,
-      },
-      parserOptions: {
-        // Eslint doesn't supply ecmaVersion in `parser.js` `context.parserOptions`
-        // This is required to avoid ecmaVersion < 2015 error or 'import' / 'export' error
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-    },
-    plugins: { import: importPlugin },
-    rules: {
-      ...importPlugin.configs.recommended.rules,
+      ecmaVersion: 'latest',
+      globals: globals.browser,
+      sourceType: 'module',
     },
   },
-  ...compat.extends('airbnb-base'),
+  {
+    settings: {
+      react: {
+        version: '18.3',
+      },
+    },
+  },
+  pluginReact.configs.flat.recommended,
   {
     rules: {
-      'no-underscore-dangle': [
-        'error',
-        {
-          allow: ['__filename', '__dirname'],
-        },
-      ],
-      'import/extensions': [
-        'error',
-        {
-          js: 'always',
-        },
-      ],
-      'import/no-named-as-default': 'off',
-      'import/no-named-as-default-member': 'off',
-      'no-console': 'off',
-      'import/no-extraneous-dependencies': 'off',
+      semi: 'error',
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
     },
   },
 ];

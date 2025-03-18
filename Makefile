@@ -3,8 +3,8 @@
 install:
 	npm ci
 
-lint:
-	npx eslint .
+lint-frontend:
+	make -C frontend lint
 
 build: 
 	npm run build

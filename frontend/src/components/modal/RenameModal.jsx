@@ -91,12 +91,12 @@ const RenameModal = ({ modalState, handleClose }) => {
               ref={inputRef}
               onKeyDown={handleKeyDown}
             />
+            <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
+            <Container className="d-flex justify-content-end px-0">
+              <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.rename.cancell')}</Button>
+              <Button variant="primary" type="submit">{t('modals.rename.submit')}</Button>
+            </Container>
           </Form.Group>
-          <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
-          <Container className="d-flex justify-content-end px-0">
-            <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.rename.cancell')}</Button>
-            <Button variant="primary" type="submit">{t('modals.rename.submit')}</Button>
-          </Container>
         </Form>
       </Modal.Body>
     </Modal>

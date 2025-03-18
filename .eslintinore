@@ -1,4 +1,0 @@
-node_modules
-dist
-frontend/eslint.config.js
-frontend/vite.config.js

@@ -1,0 +1,4 @@
+# Makefile
+
+lint:
+	npx eslint .

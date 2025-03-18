@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Form, FloatingLabel  } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -63,7 +63,7 @@ const SignUpForm = () => {
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
-  }, []);  
+  }, []);
 
   return (
     <Form className="w-50" onSubmit={formik.handleSubmit}>
@@ -86,7 +86,8 @@ const SignUpForm = () => {
           ref={inputRef}
           required
         />
-        <div placement="right" class="invalid-tooltip">{formik.errors.username}</div>
+        <div className="invalid-tooltip">{formik.errors.username}</div>
+        {/* <div placement="right" class="invalid-tooltip">{formik.errors.username}</div> */}
       </FloatingLabel>
       <FloatingLabel
         className="mb-3"
@@ -105,7 +106,7 @@ const SignUpForm = () => {
           onBlur={formik.handleBlur}
           required
         />
-        <div placement="right" class="invalid-tooltip">{formik.errors.password}</div>
+        <div className="invalid-tooltip">{formik.errors.password}</div>
       </FloatingLabel>
       <FloatingLabel
         className="mb-3"
@@ -120,11 +121,13 @@ const SignUpForm = () => {
           placeholder={t('registration.confirmField')}
           onChange={formik.handleChange}
           value={formik.values.confirmPassword}
-          isInvalid={formik.touched.confirmPassword && (formik.errors.confirmPassword || errorRegistration)}
+          isInvalid={
+            formik.touched.confirmPassword && (formik.errors.confirmPassword || errorRegistration)
+          }
           onBlur={formik.handleBlur}
           required
         />
-        <div placement="right" class="invalid-tooltip">{formik.errors.confirmPassword || errorRegistration}</div>
+        <div className="invalid-tooltip">{formik.errors.confirmPassword || errorRegistration}</div>
       </FloatingLabel>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('registration.submit')}</button>
     </Form>

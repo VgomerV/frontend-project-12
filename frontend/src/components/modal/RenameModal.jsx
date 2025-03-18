@@ -25,10 +25,10 @@ const RenameModal = ({ modalState, handleClose }) => {
 
   const channelNameValidationSchema = yup.object().shape({
     channelName: yup.string()
-    .min(3, t('modals.errors.maxMinLength'))
-    .max(20, t('modals.errors.maxMinLength'))
-    .notOneOf(channelNames, t('modals.errors.unique'))
-    .required(t('modals.errors.require')),
+      .min(3, t('modals.errors.maxMinLength'))
+      .max(20, t('modals.errors.maxMinLength'))
+      .notOneOf(channelNames, t('modals.errors.unique'))
+      .required(t('modals.errors.require')),
   });
 
   const formik = useFormik({
@@ -41,7 +41,7 @@ const RenameModal = ({ modalState, handleClose }) => {
     onSubmit: async (values) => {
       const newChannelName = filter.clean(values.channelName);
       await editChannel({ id: channel.id, channel: { name: newChannelName } });
-      dispatch(setCurrentChannel(channel)); 
+      dispatch(setCurrentChannel(channel));
       handleClose();
       toast.success(t('toasts.rename'));
     },
@@ -50,11 +50,11 @@ const RenameModal = ({ modalState, handleClose }) => {
   useEffect(() => {
     if (modalState.isShow) {
       setTimeout(() => inputRef.current?.select(), 0);
-    };
+    }
   }, [modalState.isShow]);
 
   const handleKeyDown = async (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       event.preventDefault();
       const error = await formik.validateForm();
       if (Object.keys(error).length > 0) {
@@ -99,7 +99,7 @@ const RenameModal = ({ modalState, handleClose }) => {
           </Container>
         </Form>
       </Modal.Body>
-    </Modal>    
+    </Modal>
   );
 };
 

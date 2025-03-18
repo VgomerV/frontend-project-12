@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -84,7 +83,7 @@ const AddModal = ({ modalState, handleClose }) => {
           </Container>
         </Form>
       </Modal.Body>
-    </Modal>    
+    </Modal>
   );
 };
 

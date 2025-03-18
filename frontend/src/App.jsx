@@ -24,40 +24,40 @@ const App = () => {
       },
       debug: false,
     });
-    const ru = filter.getDictionary('ru');
-    filter.add(ru);
+  const ru = filter.getDictionary('ru');
+  filter.add(ru);
 
-    const rollbarConfig = {
-      accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
-      environment: 'production',
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-    };
+  const rollbarConfig = {
+    accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
+    environment: 'production',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  };
 
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <I18nextProvider i18n={i18n}>
           <Provider store={store}>
-            <Router future = {{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick={false}
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                  transition={Bounce}
-                />
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+              />
               <Routes>
-                <Route path = '/' element={<MainPage />} />
-                <Route path = '/login' element={<LoginPage />} />
-                <Route path = '/signup' element={<SignUp />} />
-                <Route path = '*' element={<NotFoundPage />} />
+                <Route path="/" element={<MainPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </Router>
           </Provider>

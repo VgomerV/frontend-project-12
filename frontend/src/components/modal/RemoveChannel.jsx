@@ -29,13 +29,13 @@ const RemoveModal = ({ modalState, handleClose }) => {
         <Modal.Title>{t('modals.remove.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      {t('modals.remove.question')}
+        {t('modals.remove.question')}
         <Container className="d-flex justify-content-end px-0">
           <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.remove.cancell')}</Button>
           <Button variant="danger" type="submit" onClick={() => removeChannelHandler(channel.id)}>{t('modals.remove.submit')}</Button>
         </Container>
       </Modal.Body>
-    </Modal>    
+    </Modal>
   );
 };
 

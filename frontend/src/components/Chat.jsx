@@ -22,30 +22,46 @@ const Chat = () => {
       message: '',
     },
     onSubmit: (values, { resetForm }) => {
-        const newMessage = { body: filter.clean(values.message), channelId: currentChannelID, username: username };
-        axios.post('/api/v1/messages', newMessage, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        resetForm();
+      const newMessage = {
+        body: filter.clean(values.message),
+        channelId: currentChannelID,
+        username,
+      };
+      axios.post('/api/v1/messages', newMessage, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resetForm();
     },
   });
 
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
-  }, []);  
+  }, []);
 
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
-          <p className="m-0"><b># {currentChannelName}</b></p>
+          <p className="m-0">
+            <b>
+              {'# '}
+              {currentChannelName}
+            </b>
+          </p>
           <span className="text-muted">{t('chatPage.countMessages.count', { count: countMessages })}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
-          {currentMessages.map(({ username, body }) => <div key={uniqueId()} className="text-break mb-2"><b>{username}</b>: {body}</div>)}
+          {currentMessages.map(({ username, body }) => {
+            return (
+              <div key={uniqueId()} className="text-break mb-2">
+                <b>{username}</b>
+                {`: ${body}`} 
+              </div>
+            );
+          })}
         </div>
         <div className="mt-auto px-5 py-3">
           <Form className="py-1 border rounded-2" noValidate onSubmit={formik.handleSubmit}>

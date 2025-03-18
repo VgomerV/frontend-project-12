@@ -16,7 +16,7 @@ const Navbar = () => {
     localStorage.removeItem('token');
     dispach(logOut());
     navigate(pathname);
-  }
+  };
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

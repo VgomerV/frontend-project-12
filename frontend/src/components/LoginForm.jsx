@@ -40,8 +40,8 @@ const LoginForm = () => {
     },
   });
 
-  const classInput = cn({ 
-    'is-invalid': errorAuthorized ? true : false,
+  const classInput = cn({
+    'is-invalid': errorAuthorized,
   });
 
   const inputRef = useRef();
@@ -87,7 +87,7 @@ const LoginForm = () => {
           onBlur={formik.handleBlur}
           required
         />
-        <div placement="right" class="invalid-tooltip">{errorAuthorized}</div>
+        <div className="invalid-tooltip">{errorAuthorized}</div>
       </FloatingLabel>
       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginPage.submit')}</button>
     </Form>

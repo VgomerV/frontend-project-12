@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 import Navbar from './Navbar.jsx';
 import Channels from './Channels';
 import Chat from './Chat';
@@ -14,14 +15,23 @@ import { addMessages } from '../slices/messagesSlice.js';
 const MainPage = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  
+
   if (!token) {
     navigate('/login');
   }
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { data: channels, status: isChannelsLoading, isErrorFetchChannels } = useFetchChannelsQuery();
-  const { data: messages, status: isMessagesLoading, isErrorFetchMessages } = useFetchMessagesQuery();
+  const {
+    data: channels,
+    status: isChannelsLoading,
+    isErrorFetchChannels
+  } = useFetchChannelsQuery();
+  const {
+    data: messages,
+    status: isMessagesLoading,
+    isErrorFetchMessages
+  } = useFetchMessagesQuery();
 
   const socket = io();
   socket.on('newMessage', () => {
@@ -48,13 +58,13 @@ const MainPage = () => {
       dispatch(addChannels({ channels }));
       dispatch(addMessages(messages));
     }
-  }, [isChannelsLoading, isMessagesLoading]);
+  }, [isChannelsLoading, isMessagesLoading, channels, dispatch, isErrorFetchChannels, isErrorFetchMessages, messages]);
 
   return (
     <div className="d-flex flex-column h-100">
       <Navbar />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
-        <div className ="row h-100 bg-white flex-md-row">
+        <div className="row h-100 bg-white flex-md-row">
           <Channels />
           <Chat />
         </div>

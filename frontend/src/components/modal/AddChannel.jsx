@@ -64,17 +64,19 @@ const AddModal = ({ modalState, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Label htmlFor="channelName" hidden>{t('modals.label')}</Form.Label>
-          <Form.Control
-            className="mb-3"
-            type="text"
-            onChange={formik.handleChange}
-            id="channelName"
-            name="channelName"
-            value={formik.values.channelName}
-            isInvalid={formik.errors.channelName}
-            ref={inputRef}
-          />
+          <Form.Group controlId="channelName">
+            <Form.Label htmlFor="channelName" hidden>{t('modals.label')}</Form.Label>
+            <Form.Control
+              className="mb-3"
+              type="text"
+              onChange={formik.handleChange}
+              id="channelName"
+              name="channelName"
+              value={formik.values.channelName}
+              isInvalid={formik.errors.channelName}
+              ref={inputRef}
+            />
+          </Form.Group>
           <Form.Control.Feedback type="invalid">{formik.errors.channelName}</Form.Control.Feedback>
           <Container className="d-flex justify-content-end px-0">
             <Button variant="secondary" className="me-2" onClick={handleClose}>{t('modals.add.cancell')}</Button>

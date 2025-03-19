@@ -13,7 +13,6 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   const handleLogOut = () => {
-    localStorage.removeItem('token');
     dispach(logOut());
     navigate(pathname);
   };

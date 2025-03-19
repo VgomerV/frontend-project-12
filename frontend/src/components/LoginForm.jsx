@@ -27,7 +27,6 @@ const LoginForm = () => {
 
         if (error) throw error.status;
 
-        localStorage.setItem('token', data.token);
         dispatch(logIn(data));
         navigate('/');
       } catch (errorStatus) {

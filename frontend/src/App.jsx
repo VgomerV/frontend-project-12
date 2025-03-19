@@ -9,6 +9,7 @@ import MainPage from './components/MainPage.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import SignUp from './components/SignUp.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
+import ModalManager from './components/modal/ModalManager.jsx';
 import store from './slices/index.js';
 import resources from './locales/index.js';
 
@@ -59,6 +60,7 @@ const App = () => {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
+              <ModalManager />
             </Router>
           </Provider>
         </I18nextProvider>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { io } from 'socket.io-client';
+import getRoute from '../utilites/routes';
 import Navbar from './Navbar.jsx';
 import Channels from './Channels';
 import Chat from './Chat';
@@ -17,7 +18,7 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   if (!token) {
-    navigate('/login');
+    navigate(getRoute('login').replace(/^\/api\/v1/, ''));
   }
 
   const { t } = useTranslation();

@@ -8,12 +8,11 @@ import filter from 'leo-profanity';
 import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 
-const Chat = () => {
-  const { auth, channels, messages } = useSelector((state) => state);
+const Chat = ({ messages }) => {
+  const { auth, currentChannel } = useSelector((state) => state);
   const { token, username } = auth;
-  const { currentChannelID, currentChannelName } = channels;
-  const { messagesList } = messages;
-  const currentMessages = messagesList.filter((message) => message.channelId === currentChannelID);
+  const { currentChannelID, currentChannelName } = currentChannel;
+  const currentMessages = messages.filter((message) => message.channelId === currentChannelID);
   const countMessages = currentMessages.length;
   const { t } = useTranslation();
 

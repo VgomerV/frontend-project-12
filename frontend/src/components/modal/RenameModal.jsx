@@ -12,13 +12,13 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { useEditChannelMutation } from '../../api/channelsApi.js';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { setCurrentChannel } from '../../slices/currentChannelSlice.js';
 
 const RenameModal = ({ modalState, handleClose }) => {
   const dispatch = useDispatch();
-  const { channel } = modalState;
-  const { channelsList } = useSelector((state) => state.channels);
-  const channelNames = channelsList.map(({ name }) => name);
+  const { channels, selectedChannel } = modalState;
+  const { currentChannel } = useSelector((state) => state);
+  const channelNames = channels.map(({ name }) => name);
   const { t } = useTranslation();
   const [editChannel] = useEditChannelMutation();
   const inputRef = useRef();
@@ -33,15 +33,17 @@ const RenameModal = ({ modalState, handleClose }) => {
 
   const formik = useFormik({
     initialValues: {
-      channelName: channel.name,
+      channelName: selectedChannel.name,
     },
     validationSchema: channelNameValidationSchema,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
       const newChannelName = filter.clean(values.channelName);
-      await editChannel({ id: channel.id, channel: { name: newChannelName } });
-      dispatch(setCurrentChannel(channel));
+      const { data } = await editChannel({ id: selectedChannel.id, channel: { name: newChannelName } });
+      if (currentChannel.id === selectedChannel.id) {
+        dispatch(setCurrentChannel(data));
+      }
       handleClose();
       toast.success(t('toasts.rename'));
     },

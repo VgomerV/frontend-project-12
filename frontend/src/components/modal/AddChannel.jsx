@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import {
   Container,
@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { setCurrentChannel } from '../../slices/currentChannelSlice.js';
 import { useAddChannelMutation } from '../../api/channelsApi.js';
 
 const AddModal = ({ modalState, handleClose }) => {
   const dispatch = useDispatch();
-  const { channelsList } = useSelector((state) => state.channels);
-  const channelNames = channelsList.map(({ name }) => name);
+  const { channels } = modalState;
+  const channelNames = channels.map(({ name }) => name);
   const { t } = useTranslation();
   const [addChannel] = useAddChannelMutation();
 

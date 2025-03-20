@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isShow: false,
   type: null,
-  channel: {},
+  channels: [],
+  selectedChannel: {},
 };
 
 const modalSlice = createSlice({
@@ -11,11 +12,11 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     openModal: (state, { payload }) => {
-      const { type, channel = {} } = payload;
-      return { isShow: true, type, channel };
+      const { type, channels = [], selectedChannel = {} } = payload;
+      return { isShow: true, type, channels, selectedChannel };
     },
     closeModal: (state) => {
-      return { isShow: false, type: null, channel: {} };
+      return { isShow: false, type: null, channels: [] };
     },
   },
 });

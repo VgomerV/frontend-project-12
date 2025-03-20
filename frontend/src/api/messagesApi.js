@@ -17,7 +17,6 @@ const messagesApi = createApi({
   endpoints: (builder) => ({
     fetchMessages: builder.query({
       query: () => '',
-      providesTags: ['Message'],
     }),
   }),
 });

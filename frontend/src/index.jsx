@@ -2,11 +2,11 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
-import App from './App.jsx';
+import init from './init.jsx';
 
 const app = async () => {
   const root = ReactDOM.createRoot(document.getElementById('chat'));
-  root.render(await App());
+  root.render(await init());
 };
 
 app();

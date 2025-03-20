@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, InputGroup } from 'react-bootstrap';
@@ -11,7 +10,7 @@ import { useAddMessageMutation } from '../api/messagesApi.js';
 
 const Chat = ({ messages }) => {
   const { auth, currentChannel } = useSelector((state) => state);
-  const { token, username } = auth;
+  const { username } = auth;
   const { currentChannelID, currentChannelName } = currentChannel;
   const currentMessages = messages.filter((message) => message.channelId === currentChannelID);
   const countMessages = currentMessages.length;

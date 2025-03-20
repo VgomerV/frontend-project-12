@@ -18,8 +18,14 @@ const messagesApi = createApi({
     fetchMessages: builder.query({
       query: () => '',
     }),
+    addMessage: builder.mutation({
+      query: (message) => ({
+        method: 'POST',
+        body: message,
+      }),
+    }),
   }),
 });
 
-export const { useFetchMessagesQuery } = messagesApi;
+export const { useFetchMessagesQuery, useAddMessageMutation } = messagesApi;
 export default messagesApi;

@@ -40,7 +40,10 @@ const RenameModal = ({ modalState, handleClose }) => {
     validateOnChange: false,
     onSubmit: async (values) => {
       const newChannelName = filter.clean(values.channelName);
-      const { data } = await editChannel({ id: selectedChannel.id, channel: { name: newChannelName } });
+      const { data } = await editChannel({
+        id: selectedChannel.id,
+        channel: { name: newChannelName },
+      });
       if (currentChannel.id === selectedChannel.id) {
         dispatch(setCurrentChannel(data));
       }

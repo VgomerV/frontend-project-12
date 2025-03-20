@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
+import { useAddMessageMutation } from '../api/messagesApi.js';
 
 const Chat = ({ messages }) => {
   const { auth, currentChannel } = useSelector((state) => state);
@@ -14,23 +15,20 @@ const Chat = ({ messages }) => {
   const { currentChannelID, currentChannelName } = currentChannel;
   const currentMessages = messages.filter((message) => message.channelId === currentChannelID);
   const countMessages = currentMessages.length;
+  const [addMessage] = useAddMessageMutation();
   const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
       message: '',
     },
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       const newMessage = {
         body: filter.clean(values.message),
         channelId: currentChannelID,
         username,
       };
-      axios.post('/api/v1/messages', newMessage, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await addMessage(newMessage);
       resetForm();
     },
   });

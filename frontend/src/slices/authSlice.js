@@ -13,7 +13,7 @@ const authSlice = createSlice({
       localStorage.setItem('token', payload.token);
       return payload;
     },
-    logOut: (state) => {
+    logOut: () => {
       localStorage.removeItem('token');
       return initialState;
     },

@@ -11,12 +11,9 @@ const currentChannelSlice = createSlice({
   reducers: {
     setCurrentChannel: (state, { payload }) => {
       const { id, name } = payload;
-      state.currentChannelID = id;
-      state.currentChannelName = name;
+      return { currentChannelID: id, currentChannelName: name };
     },
-    resetCurrentChannel: (state) => {
-      return initialState;
-    },
+    resetCurrentChannel: () => initialState,
   },
 });
 
